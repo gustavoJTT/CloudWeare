@@ -26,9 +26,9 @@ struct ContentView: View {
     @State var opcao = [
         Coiso(id: 1, nome: "", imagem: "icon-image")
     ]
-    @State private var opRoupa: String = ""
     @State private var cor = 0
     @State private var nomeRoupa: String = ""
+    @State private var nomeEscolhido: String = ""
     
     var camisas = [
         Coiso(id: 1, nome: "Simples", imagem: "camisa-simples"),
@@ -58,43 +58,57 @@ struct ContentView: View {
                 HStack{
                     VStack {
                         HStack {
+                            Image("Logo")
+                            Spacer()
+                            Text("úsuario")
                             Circle()
                                 .frame(width: 60)
-                            Text("úsuario")
-                            Spacer()
-                            Image("Logo")
                         }
+                        
+                        
                         HStack {
-                            Menu(menuNome) {
+                            Menu{
                                 Button("Calças",action: trocaCalca)
                                 Button("Camisas",action: trocaCamisa)
+                            }label: {
+                                Label("\(menuNome)",systemImage: "chevron.down")
                             }.fontWeight(.bold)
-                                .font(/*@START_MENU_TOKEN@*/.title3/*@END_MENU_TOKEN@*/)
-                            .frame(width: 95, height: 50)
-                            .background(Color("mainAzul"))
-                            .cornerRadius(5)
-                            .foregroundColor(.white)
+                                .frame(width: 105, height: 53)
+                                .background(Color("mainAzul"))
+                                .cornerRadius(5)
+                                .foregroundColor(.white)
+                            
                             Spacer()
                         }
                         Spacer()
                         VStack {
                             LazyHGrid(rows:rows){
                                 ForEach(opcao) { a in
-                                    Button(action: escolhido){
-                                        VStack{
-                                            Image(a.imagem)
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(width: 90)
-                                                .background(Color("backPhotos"))
-                                                .cornerRadius(7)
-                                            Text(a.nome)
-                                                .foregroundColor(.black)
-                                        }
-                                    }
+                                    Button {
+                                        nomeEscolhido = a.nome
+                                     } label: {
+                                         VStack{
+                                             Image(a.imagem)
+                                                 .resizable()
+                                                 .scaledToFit()
+                                                 .frame(width: 90)
+                                                 .background(Color("backPhotos"))
+                                                 .cornerRadius(7)
+                                             Text(a.nome)
+                                                 .foregroundColor(.black)
+                                         }
+                                     }
                                 }
+                                
                             }
+                            Spacer()
                             VStack {
+                                HStack {
+                                    Text("Tipo:")
+                                    Spacer()
+                                    Text("\(nomeEscolhido)")
+                                }
+                                Spacer()
                                 HStack {
                                     Text("Escolha a cor:")
                                     Spacer()
@@ -114,12 +128,24 @@ struct ContentView: View {
                                     TextField("", text: $nomeRoupa)
                                         .frame(height: 30)
                                         .background(Color.white)
-                                    
+                                        .cornerRadius(7)
+    
                                 }
+                                Spacer()
                             }
+                            //Spacer()
+                            VStack{
+                                Button("Salvar",action: escolhido)
+                                    .fontWeight(.bold)
+                                    .frame(width: 105, height: 53)
+                                    .background(Color("mainAzul"))
+                                    .cornerRadius(5)
+                                    .foregroundColor(.white)
+                            }.padding()
                             
                         }
-                    }.padding()
+                    }
+                    .padding()
                 }
             }
         }
@@ -135,7 +161,7 @@ struct ContentView: View {
     }
     
     func escolhido() {
-      //  opRoupa = nome
+        
     }
 }
 
